@@ -1,0 +1,15 @@
+## Interface: 20200
+
+## Title: Quel'evel
+## Notes: Adds quest level tags to log and watcher.
+## Author: Tekkub Stoutwrithe
+## X-Credits: QuestLevel by Elkano
+## Version: Alpha
+## X-Website: http://code.google.com/p/tekkub-wow/
+## X-Email: tekkub-wow@googlegroups.com
+## X-Category: Inventory
+
+## LoadManagers: AddonLoader
+## X-LoadOn-Always: delayed
+
+Quelevel.lua
