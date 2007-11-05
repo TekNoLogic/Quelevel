@@ -31,6 +31,7 @@ hooksecurefunc("QuestLog_Update", function()
 			end
 
 			if tag or complete and complete ~= 0 or daily then
+				if not complete then questTitleTag:SetText("") end
 				local tempWidth = 275 - 15 - questTitleTag:GetWidth()
 				local textWidth = math.min(QuestLogDummyText:GetWidth(), tempWidth)
 				questNormalText:SetWidth(tempWidth)
