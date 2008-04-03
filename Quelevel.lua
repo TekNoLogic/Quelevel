@@ -64,3 +64,10 @@ hooksecurefunc("QuestWatch_Update", function()
 	if watchTextIndex ~= 1 and QuestWatchFrame:GetWidth() < (questWatchMaxWidth + 10) then QuestWatchFrame:SetWidth(questWatchMaxWidth + 10) end
 end)
 
+
+-- Add tags to quest links in chat
+local orig = ChatFrame_MessageEventHandler
+function ChatFrame_MessageEventHandler(event, ...)
+	arg1 = arg1:gsub("|Hquest:(%d+):(%d+)|h%[([^%]]+)]|h|r", "|Hquest:$1:$2|h[%2: %3]|h|r")
+	return orig(event, ...)
+end
