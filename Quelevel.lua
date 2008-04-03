@@ -68,6 +68,6 @@ end)
 -- Add tags to quest links in chat
 local orig = ChatFrame_MessageEventHandler
 function ChatFrame_MessageEventHandler(event, ...)
-	arg1 = arg1:gsub("|Hquest:(%d+):(%d+)|h%[([^%]]+)]|h|r", "|Hquest:$1:$2|h[%2: %3]|h|r")
+	arg1 = arg1:gsub("(|c%x+|Hquest:%d+:(%d+))", "(%2) %1")
 	return orig(event, ...)
 end
