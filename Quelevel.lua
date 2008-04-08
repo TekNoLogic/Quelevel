@@ -67,4 +67,4 @@ end)
 
 -- Add tags to quest links in chat
 local function filter(msg) if msg then return false, msg:gsub("(|c%x+|Hquest:%d+:(%d+))", "(%2) %1") end end
-for _,event in pairs{"SAY", "GUILD", "GUILD_OFFICER", "WHISPER", "PARTY", "RAID", "RAID_LEADER", "BATTLEGROUND", "BATTLEGROUND_LEADER"} do ChatFrame_AddMessageEventFilter(event, filter) end
+for _,event in pairs{"SAY", "GUILD", "GUILD_OFFICER", "WHISPER", "PARTY", "RAID", "RAID_LEADER", "BATTLEGROUND", "BATTLEGROUND_LEADER"} do ChatFrame_AddMessageEventFilter("CHAT_MSG_"..event, filter) end
