@@ -68,3 +68,26 @@ end)
 -- Add tags to quest links in chat
 local function filter(msg) if msg then return false, msg:gsub("(|c%x+|Hquest:%d+:(%d+))", "(%2) %1") end end
 for _,event in pairs{"SAY", "GUILD", "GUILD_OFFICER", "WHISPER", "PARTY", "RAID", "RAID_LEADER", "BATTLEGROUND", "BATTLEGROUND_LEADER"} do ChatFrame_AddMessageEventFilter("CHAT_MSG_"..event, filter) end
+
+
+-- Add tags to gossip frame
+local i
+local TRIVIAL, NORMAL = "|cff%02x%02x%02x[%d]|r "..TRIVIAL_QUEST_DISPLAY, "|cff%02x%02x%02x[%d]|r ".. NORMAL_QUEST_DISPLAY
+local function helper(step, ...)
+	local num = select('#', ...)
+	if num == 0 then return end
+
+	for j=1,num,step do
+		local title, level, isTrivial = select(j, ...)
+		local color = GetDifficultyColor(level)
+		_G["GossipTitleButton"..i]:SetFormattedText(step == 3 and isTrivial and TRIVIAL or NORMAL, color.r*255, color.g*255, color.b*255, level, title)
+		i = i + 1
+	end
+	i = i + 1
+end
+
+hooksecurefunc("GossipFrameUpdate", function()
+	i = 1
+	helper(3, GetGossipAvailableQuests())
+	helper(2, GetGossipActiveQuests())
+end)
