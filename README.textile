@@ -1,0 +1,18 @@
+Quel'evel is a basic "quest level" addon, it adds quest levels to the quest log, quest watcher, chat links and gossip frame.
+
+Quel'evel was written because most of the other quest level addons out there use an undesirable method to inject the level, which tends to break other addons.  Being the studdorn ass I am, I refused to compensate for this bad practise in my addons, so I wrote Quel'evel as an alternative that uses a cleaner approach.
+
+Quel'evel also adds a few tags to the quest level:
+
+* + - Elite
+* G - Group (with recommended number of players if available)
+* D - Dungeon
+* R - Raid
+* P - PvP
+* • - Daily
+
+h2. Links
+
+<b>Visit "my site":http://www.tekkub.net/addons/Quelevel for more info.<br>
+Please report all bugs and feature requests to my "Google Code":http://code.google.com/p/tekkub-wow/issues/list?can=1&q=addon:Quelevel&sort=status+milestone&colspec=ID%20Type%20Status%20Addon%20Milestone%20Summary tracker<br>
+Please direct all feedback and questions to my "Google Groups":http://groups-beta.google.com/group/tekkub-wow mailinglist.</b>
