@@ -73,14 +73,14 @@ for _,event in pairs{"SAY", "GUILD", "GUILD_OFFICER", "WHISPER", "PARTY", "RAID"
 -- Add tags to gossip frame
 local i
 local TRIVIAL, NORMAL = "|cff%02x%02x%02x[%d]|r "..TRIVIAL_QUEST_DISPLAY, "|cff%02x%02x%02x[%d]|r ".. NORMAL_QUEST_DISPLAY
-local function helper(step, ...)
+local function helper(isActive, ...)
 	local num = select('#', ...)
 	if num == 0 then return end
 
-	for j=1,num,step do
+	for j=1,num,3 do
 		local title, level, isTrivial = select(j, ...)
 		local color = GetDifficultyColor(level)
-		_G["GossipTitleButton"..i]:SetFormattedText(step == 3 and isTrivial and TRIVIAL or NORMAL, color.r*255, color.g*255, color.b*255, level, title)
+		_G["GossipTitleButton"..i]:SetFormattedText(isActive and isTrivial and TRIVIAL or NORMAL, color.r*255, color.g*255, color.b*255, level, title)
 		i = i + 1
 	end
 	i = i + 1
@@ -88,6 +88,6 @@ end
 
 hooksecurefunc("GossipFrameUpdate", function()
 	i = 1
-	helper(3, GetGossipAvailableQuests())
-	helper(2, GetGossipActiveQuests())
+	helper(false, GetGossipAvailableQuests())
+	helper(true, GetGossipActiveQuests())
 end)
