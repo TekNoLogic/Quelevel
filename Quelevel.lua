@@ -79,7 +79,7 @@ local function helper(isActive, ...)
 
 	for j=1,num,3 do
 		local title, level, isTrivial = select(j, ...)
-		if level ~= -1
+		if level ~= -1 then
 			local color = GetDifficultyColor(level)
 			_G["GossipTitleButton"..i]:SetFormattedText(isActive and isTrivial and TRIVIAL or NORMAL, color.r*255, color.g*255, color.b*255, level, title)
 		end
