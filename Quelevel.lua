@@ -1,7 +1,6 @@
 
 
 local questtags, tags = {}, {Elite = "+", Group = "G", Dungeon = "D", Raid = "R", PvP = "P", Daily = "\226\128\162"}
---¤®° \194\164 \194\174 \194\176
 
 
 local function GetTaggedTitle(i)
