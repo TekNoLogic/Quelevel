@@ -43,7 +43,7 @@ end)
 
 
 -- Add tags to the quest watcher
-hooksecurefunc("QuestWatch_Update", function()
+hooksecurefunc("WatchFrame_Update", function()
 	local questWatchMaxWidth, watchTextIndex = 0, 1
 
 	for i=1,GetNumQuestWatches() do
@@ -52,16 +52,12 @@ hooksecurefunc("QuestWatch_Update", function()
 			local numObjectives = GetNumQuestLeaderBoards(qi)
 
 			if numObjectives > 0 then
-				local text = _G["QuestWatchLine"..watchTextIndex]
-				text:SetText(GetTaggedTitle(qi))
-				local tempWidth = text:GetWidth()
-				questWatchMaxWidth = math.max(tempWidth, questWatchMaxWidth)
-				watchTextIndex = watchTextIndex + numObjectives + 1
+				for bi,butt in pairs(WATCHFRAME_QUESTLINES) do
+					if butt.text:GetText() == GetQuestLogTitle(qi) then butt.text:SetText(GetTaggedTitle(qi)) end
+				end
 			end
 		end
 	end
-
-	if watchTextIndex ~= 1 and QuestWatchFrame:GetWidth() < (questWatchMaxWidth + 10) then QuestWatchFrame:SetWidth(questWatchMaxWidth + 10) end
 end)
 
 
