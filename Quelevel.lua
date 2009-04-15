@@ -1,5 +1,7 @@
 
 
+WATCHFRAME_DEFAULTWIDTH = 400
+
 local questtags, tags = {}, {Elite = "+", Group = "G", Dungeon = "D", Raid = "R", PvP = "P", Daily = "\226\128\162"}
 
 
@@ -42,7 +44,7 @@ end)
 
 
 -- Add tags to the quest watcher
-hooksecurefunc("QuestWatch_Update", function()
+hooksecurefunc("WatchFrame_Update", function()
 	local questWatchMaxWidth, watchTextIndex = 0, 1
 
 	for i=1,GetNumQuestWatches() do
@@ -51,21 +53,22 @@ hooksecurefunc("QuestWatch_Update", function()
 			local numObjectives = GetNumQuestLeaderBoards(qi)
 
 			if numObjectives > 0 then
-				local text = _G["QuestWatchLine"..watchTextIndex]
-				text:SetText(GetTaggedTitle(qi))
-				local tempWidth = text:GetWidth()
-				questWatchMaxWidth = math.max(tempWidth, questWatchMaxWidth)
-				watchTextIndex = watchTextIndex + numObjectives + 1
+				for bi,butt in pairs(WATCHFRAME_QUESTLINES) do
+					if butt.text:GetText() == GetQuestLogTitle(qi) then butt.text:SetText(GetTaggedTitle(qi)) end
+				end
 			end
 		end
 	end
-
-	if watchTextIndex ~= 1 and QuestWatchFrame:GetWidth() < (questWatchMaxWidth + 10) then QuestWatchFrame:SetWidth(questWatchMaxWidth + 10) end
 end)
 
 
 -- Add tags to quest links in chat
-local function filter(msg) if msg then return false, msg:gsub("(|c%x+|Hquest:%d+:(%d+))", "(%2) %1") end end
+local function filter(self, event, msg, ...)
+	if select(4, GetBuildInfo()) < 30100 then msg = self end
+	if msg then
+		return false, msg:gsub("(|c%x+|Hquest:%d+:(%d+))", "(%2) %1"), ...
+	end
+end
 for _,event in pairs{"SAY", "GUILD", "GUILD_OFFICER", "WHISPER", "WHISPER_INFORM", "PARTY", "RAID", "RAID_LEADER", "BATTLEGROUND", "BATTLEGROUND_LEADER"} do ChatFrame_AddMessageEventFilter("CHAT_MSG_"..event, filter) end
 
 
