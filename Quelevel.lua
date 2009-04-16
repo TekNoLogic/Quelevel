@@ -1,7 +1,5 @@
 
 
-WATCHFRAME_DEFAULTWIDTH = 400
-
 local questtags, tags = {}, {Elite = "+", Group = "G", Dungeon = "D", Raid = "R", PvP = "P", Daily = "\226\128\162"}
 
 
