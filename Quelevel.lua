@@ -62,7 +62,6 @@ end)
 
 -- Add tags to quest links in chat
 local function filter(self, event, msg, ...)
-	if select(4, GetBuildInfo()) < 30100 then msg = self end
 	if msg then
 		return false, msg:gsub("(|c%x+|Hquest:%d+:(%d+))", "(%2) %1"), ...
 	end
