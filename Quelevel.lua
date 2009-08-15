@@ -1,44 +1,29 @@
 
 
-local questtags, tags = {}, {Elite = "+", Group = "G", Dungeon = "D", Raid = "R", PvP = "P", Daily = "\226\128\162"}
+local questtags, tags = {}, {Elite = "+", Group = "G", Dungeon = "D", Raid = "R", PvP = "P", Daily = "\226\128\162", Heroic = "H"}
 
 
 local function GetTaggedTitle(i)
-	local name, level, tag, group, header, _, _, daily = GetQuestLogTitle(i)
+	local name, level, tag, group, header, _, complete, daily = GetQuestLogTitle(i)
 	if header or not name then return end
 
 	if not group or group == 0 then group = nil end
-	return string.format("[%s%s%s] %s", level, tag and tags[tag] or daily and tags.Daily or "", group or "", name)
+	return string.format("[%s%s%s%s] %s", level, tag and tags[tag] or "", daily and tags.Daily or "",group or "", name), tag, daily, complete
 end
 
 
 -- Add tags to the quest log
-hooksecurefunc("QuestLog_Update", function()
-	local offset, numEntries, numQuests = FauxScrollFrame_GetOffset(QuestLogListScrollFrame), GetNumQuestLogEntries()
-
-	for i=1,QUESTS_DISPLAYED do
-		local qi = i + offset
-		local questLogTitle, questTitleTag, questNormalText, questCheck = _G["QuestLogTitle"..i], _G["QuestLogTitle"..i.."Tag"], _G["QuestLogTitle"..i.."NormalText"], _G["QuestLogTitle"..i.."Check"]
-
-		if qi <= numEntries then
-			local _, _, tag, _, _, _, complete, daily = GetQuestLogTitle(qi)
-
-			local title = GetTaggedTitle(qi)
-			if title then
-				questLogTitle:SetText("  "..title)
-				QuestLogDummyText:SetText("  "..title)
-			end
-
-			if tag or complete and complete ~= 0 or daily then
-				if not complete then questTitleTag:SetText("") end
-				local tempWidth = 275 - 15 - questTitleTag:GetWidth()
-				local textWidth = math.min(QuestLogDummyText:GetWidth(), tempWidth)
-				questNormalText:SetWidth(tempWidth)
-				if IsQuestWatched(qi) then questCheck:SetPoint("LEFT", questLogTitle, "LEFT", textWidth + ((questNormalText:GetWidth() + 24) < 275 and 24 or 10), 0) end
-			end
-		end
+local function QuestLog_Update()
+	for i,butt in pairs(QuestLogScrollFrame.buttons) do
+		local qi = butt:GetID()
+		local title, tag, daily, complete = GetTaggedTitle(qi)
+		if title then butt:SetText("  "..title) end
+		if (tag or daily) and not complete then butt.tag:SetText("") end
+		QuestLogTitleButton_Resize(butt)
 	end
-end)
+end
+hooksecurefunc("QuestLog_Update", QuestLog_Update)
+hooksecurefunc(QuestLogScrollFrame, "update", QuestLog_Update)
 
 
 -- Add tags to the quest watcher
