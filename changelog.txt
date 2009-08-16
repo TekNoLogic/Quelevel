@@ -1,3 +1,6 @@
+3.2.0.6-Beta
+    Fix for new quest frame in 3.2
+
 3.1.0.5-Beta
     Bit of hackery to make the quest tracker work again in 3.1
     Update filter for 3.1
