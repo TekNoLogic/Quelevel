@@ -1,3 +1,6 @@
+3.3.0.8-Beta
+    Fix for 3.3.3 (Thanks indie!)
+
 3.2.0.7-Beta
     Fix for GetDifficultyColor error
 
