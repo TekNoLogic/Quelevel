@@ -61,7 +61,9 @@ local function helper(isActive, ...)
 	local num = select('#', ...)
 	if num == 0 then return end
 
-	for j=1,num,3 do
+	local skip = isActive and 4 or 5
+
+	for j=1,num,skip do
 		local title, level, isTrivial = select(j, ...)
 		if title and level and level ~= -1 then
 			local color = GetQuestDifficultyColor(level)
@@ -74,6 +76,6 @@ end
 
 hooksecurefunc("GossipFrameUpdate", function()
 	i = 1
-	helper(false, GetGossipAvailableQuests())
-	helper(true, GetGossipActiveQuests())
+	helper(false, GetGossipAvailableQuests()) -- name, level, trivial, daily, repeatable
+	helper(true, GetGossipActiveQuests()) -- name, level, trivial, complete
 end)
