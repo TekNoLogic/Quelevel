@@ -74,8 +74,10 @@ local function helper(isActive, ...)
 	i = i + 1
 end
 
-hooksecurefunc("GossipFrameUpdate", function()
+local function GossipUpdate()
 	i = 1
 	helper(false, GetGossipAvailableQuests()) -- name, level, trivial, daily, repeatable
 	helper(true, GetGossipActiveQuests()) -- name, level, trivial, complete
-end)
+end
+hooksecurefunc("GossipFrameUpdate", GossipUpdate)
+if GossipFrame:IsShown() then GossipUpdate() end

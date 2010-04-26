@@ -11,5 +11,7 @@
 
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Always: delayed
+## X-LoadOn-Events: GOSSIP_SHOW
+## X-LoadOn-GOSSIP_SHOW: LoadAddOn('Quelevel')
 
 Quelevel.lua
