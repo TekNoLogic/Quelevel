@@ -1,6 +1,6 @@
 
 
-local questtags, tags = {}, {Elite = "+", Group = "G", Dungeon = "D", Raid = "R", PvP = "P", Daily = "\226\128\162", Heroic = "H"}
+local questtags, tags = {}, {Elite = "+", Group = "G", Dungeon = "D", Raid = "R", PvP = "P", Daily = "•", Heroic = "H", Repeatable = "∞"}
 
 
 local function GetTaggedTitle(i)
@@ -56,7 +56,7 @@ for _,event in pairs{"SAY", "GUILD", "GUILD_OFFICER", "WHISPER", "WHISPER_INFORM
 
 -- Add tags to gossip frame
 local i
-local TRIVIAL, NORMAL = "|cff%02x%02x%02x[%d]|r "..TRIVIAL_QUEST_DISPLAY, "|cff%02x%02x%02x[%d]|r ".. NORMAL_QUEST_DISPLAY
+local TRIVIAL, NORMAL = "|cff%02x%02x%02x[%d%s%s]|r "..TRIVIAL_QUEST_DISPLAY, "|cff%02x%02x%02x[%d%s%s]|r ".. NORMAL_QUEST_DISPLAY
 local function helper(isActive, ...)
 	local num = select('#', ...)
 	if num == 0 then return end
@@ -64,10 +64,11 @@ local function helper(isActive, ...)
 	local skip = isActive and 4 or 5
 
 	for j=1,num,skip do
-		local title, level, isTrivial = select(j, ...)
+		local title, level, isTrivial, daily, repeatable = select(j, ...)
+		if isActive then daily, repeatable = nil end
 		if title and level and level ~= -1 then
 			local color = GetQuestDifficultyColor(level)
-			_G["GossipTitleButton"..i]:SetFormattedText(isActive and isTrivial and TRIVIAL or NORMAL, color.r*255, color.g*255, color.b*255, level, title)
+			_G["GossipTitleButton"..i]:SetFormattedText(isActive and isTrivial and TRIVIAL or NORMAL, color.r*255, color.g*255, color.b*255, level, repeatable and tags.Repeatable or "", daily and tags.Daily or "", title)
 		end
 		i = i + 1
 	end
