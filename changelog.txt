@@ -1,3 +1,8 @@
+3.3.0.9-Beta
+    Now we know if a quest is daily or repeatable
+    Load on GOSSIP_SHOW too
+    Go go undocumented API changes!
+
 3.3.0.8-Beta
     Fix for 3.3.3 (Thanks indie!)
 
