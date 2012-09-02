@@ -61,10 +61,10 @@ local function helper(isActive, ...)
 	local num = select('#', ...)
 	if num == 0 then return end
 
-	local skip = isActive and 4 or 5
+	local skip = isActive and 5 or 6
 
 	for j=1,num,skip do
-		local title, level, isTrivial, daily, repeatable = select(j, ...)
+		local title, level, isTrivial, daily, repeatable, legendary = select(j, ...)
 		if isActive then daily, repeatable = nil end
 		if title and level and level ~= -1 then
 			local color = GetQuestDifficultyColor(level)
@@ -77,8 +77,8 @@ end
 
 local function GossipUpdate()
 	i = 1
-	helper(false, GetGossipAvailableQuests()) -- name, level, trivial, daily, repeatable
-	helper(true, GetGossipActiveQuests()) -- name, level, trivial, complete
+	helper(false, GetGossipAvailableQuests()) -- name, level, trivial, daily, repeatable, legendary
+	helper(true, GetGossipActiveQuests()) -- name, level, trivial, complete, legendary
 end
 hooksecurefunc("GossipFrameUpdate", GossipUpdate)
 if GossipFrame:IsShown() then GossipUpdate() end
