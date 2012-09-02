@@ -1,6 +1,15 @@
 
 
-local questtags, tags = {}, {Elite = "+", Group = "G", Dungeon = "D", Raid = "R", PvP = "P", Daily = "•", Heroic = "H", Repeatable = "∞"}
+local questtags, tags = {}, {
+	Elite      = "+",
+	Group      = "G",
+	Dungeon    = "D",
+	Raid       = "R",
+	PvP        = "P",
+	Daily      = "•",
+	Heroic     = "H",
+	Repeatable = "∞",
+}
 
 
 local function GetTaggedTitle(i)
@@ -8,7 +17,9 @@ local function GetTaggedTitle(i)
 	if header or not name then return end
 
 	if not group or group == 0 then group = nil end
-	return string.format("[%s%s%s%s] %s", level, tag and tags[tag] or "", daily and tags.Daily or "",group or "", name), tag, daily, complete
+	local title = string.format("[%s%s%s%s] %s", level, tag and tags[tag] or "",
+		                          daily and tags.Daily or "",group or "", name)
+	return title, tag, daily, complete
 end
 
 
@@ -37,7 +48,9 @@ hooksecurefunc("WatchFrame_Update", function()
 
 			if numObjectives > 0 then
 				for bi,butt in pairs(WATCHFRAME_QUESTLINES) do
-					if butt.text:GetText() == GetQuestLogTitle(qi) then butt.text:SetText(GetTaggedTitle(qi)) end
+					if butt.text:GetText() == GetQuestLogTitle(qi) then
+						butt.text:SetText(GetTaggedTitle(qi))
+					end
 				end
 			end
 		end
@@ -51,12 +64,17 @@ local function filter(self, event, msg, ...)
 		return false, msg:gsub("(|c%x+|Hquest:%d+:(%d+))", "(%2) %1"), ...
 	end
 end
-for _,event in pairs{"SAY", "GUILD", "GUILD_OFFICER", "WHISPER", "WHISPER_INFORM", "PARTY", "RAID", "RAID_LEADER", "BATTLEGROUND", "BATTLEGROUND_LEADER"} do ChatFrame_AddMessageEventFilter("CHAT_MSG_"..event, filter) end
+local events = {"SAY", "GUILD", "GUILD_OFFICER", "WHISPER", "WHISPER_INFORM",
+	"PARTY", "RAID", "RAID_LEADER", "BATTLEGROUND", "BATTLEGROUND_LEADER"}
+for _,event in pairs(events) do
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_"..event, filter)
+end
 
 
 -- Add tags to gossip frame
 local i
-local TRIVIAL, NORMAL = "|cff%02x%02x%02x[%d%s%s]|r "..TRIVIAL_QUEST_DISPLAY, "|cff%02x%02x%02x[%d%s%s]|r ".. NORMAL_QUEST_DISPLAY
+local TRIVIAL = "|cff%02x%02x%02x[%d%s%s]|r "..TRIVIAL_QUEST_DISPLAY
+local NORMAL  = "|cff%02x%02x%02x[%d%s%s]|r ".. NORMAL_QUEST_DISPLAY
 local function helper(isActive, ...)
 	local num = select('#', ...)
 	if num == 0 then return end
@@ -68,7 +86,13 @@ local function helper(isActive, ...)
 		if isActive then daily, repeatable = nil end
 		if title and level and level ~= -1 then
 			local color = GetQuestDifficultyColor(level)
-			_G["GossipTitleButton"..i]:SetFormattedText(isActive and isTrivial and TRIVIAL or NORMAL, color.r*255, color.g*255, color.b*255, level, repeatable and tags.Repeatable or "", daily and tags.Daily or "", title)
+			_G["GossipTitleButton"..i]:SetFormattedText(
+				isActive and isTrivial and TRIVIAL or NORMAL,
+				color.r*255, color.g*255, color.b*255,
+				level,
+				repeatable and tags.Repeatable or "",
+				daily and tags.Daily or "",
+				title)
 		end
 		i = i + 1
 	end
