@@ -1,3 +1,6 @@
+5.0.1.11-Beta
+    Fix for 5.0
+
 4.1.0.10-Release
     Tagging stable version
 
